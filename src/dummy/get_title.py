@@ -1,49 +1,26 @@
-def extract_title_after_date(text):
-    """
-    Trích xuất tiêu đề xuất hiện ngay sau dòng ngày ... tháng ... năm ... trong văn bản tiếng Việt.
-    Trả về tiêu đề (hoặc None nếu không tìm thấy).
-    """
-    # Regex tìm dòng ngày ... tháng ... năm ...
-    date_pattern = re.compile(r'ngày\s+\d{1,2}\s+tháng\s+\d{1,2}\s+năm\s+\d{4}', re.IGNORECASE)
-    lines = text.splitlines()
-    found_date = False
-    for i, line in enumerate(lines):
-        if date_pattern.search(line):
-            # Tìm dòng tiếp theo không rỗng sau dòng ngày tháng năm
-            for j in range(i+1, len(lines)):
-                next_line = lines[j].strip()
-                if next_line:
-                    return next_line
-            break
-    return None
-
 import re
 import os
 from PyPDF2 import PdfReader
 import openai
 from openai import OpenAI
-print(os.environ.get('HF_TOKEN'))
-# log_file = open("logs\extract.log", "w", encoding="utf-8")
+print(os.environ.get('OPENAI_API_KEY'))
 
-# --- Hugging Face LLM-based extraction ---
-from huggingface_hub import InferenceClient
-import json
-
+client = OpenAI()
 def clean_text(text):
     # Loại bỏ tất cả các ký tự không phải chữ cái hoặc số
-    cleaned = re.sub(r'^\W+|\W+$', '', s)
+    cleaned = re.sub(r'^\W+|\W+$', '', text)
     return cleaned
+
 def extract_title_and_subtitle(text):
     """
     Uses a Hugging Face small LLM to extract the main title and subtitle from the document text.
     Returns a tuple: (title, subtitle) or (None, None) if not found.
     """
-    # Use OpenAI API (requires openai package and API key in OPENAI_API_KEY env var)
     
     prompt = (
         "Bạn là một chuyên gia phân tích tài liệu. Ban hãy trích xuất tiêu đề in hoa và chủ đề của tài liệu xuất hiện ngay sau dòng ngày tháng năm từ tài liệu tiếng Việt sau.\n"
         "Hãy trả kết quả về theo format: " +  "\"Tiêu đề_Chủ đề\""
-        "Tiêu đề có thể là NGHỊ QUYẾT, TỜ TRÌNH, QUYẾT ĐỊNH, BÁO CÁO, BÁO CÁO THẨM TRA, PHỤ LỤC, THÔNG BÁO, CÔNG VĂN\n"
+        "Tiêu đề có thể là NGHỊ QUYẾT, TỜ TRÌNH, QUYẾT ĐỊNH, BÁO CÁO, BÁO CÁO THẨM TRA, PHỤ LỤC, THÔNG BÁO, CÔNG VĂN, PHIẾU TRÌNH\n"
         "Chủ đề là nội dung bài viết nằm ngay sau tiêu đề, có thể là một câu hoặc một cụm từ mô tả nội dung chính của tài liệu.\n"
         "\nTài liệu:\n" + text
     )
@@ -90,6 +67,6 @@ def extract_title_from_pdf(pdf_path):
 
 # Example usage
 if __name__ == "__main__":
-    pdf_file = "path/to/your/document.pdf"  # Replace with your PDF file path
+    pdf_file = r"data\Mẫu phê duyệt tờ trình của KT (đơn giản)\03. 1phiếu trình.pdf"  # Replace with your PDF file path
     title, subtitle = extract_title_from_pdf(pdf_file)
     print(f"Title: {title}\nSubtitle: {subtitle}")
