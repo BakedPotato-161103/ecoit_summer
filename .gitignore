@@ -1,3 +1,4 @@
-/config
-/data
-/logs
+/config/*
+/data/*
+/logs/*
+/venv/*
