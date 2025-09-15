@@ -2,6 +2,9 @@
 /logs/**
 /venv/**
 
+!/notebooks/
 !/data/.gitkeep
 !/logs/.gitkeep
 !/venv/.gitkeep
+
+*.pyc
