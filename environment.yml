@@ -1,0 +1,9 @@
+name: mmocr
+channels: 
+  - conda-forge
+  - defaults
+dependencies: 
+  - conda-forge::python=3.10
+  - nvidia/label/cuda-12.6.1::cuda-toolkit
+  - pytorch::pytorch
+  - pytorch::torchvision

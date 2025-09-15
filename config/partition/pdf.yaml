@@ -1,0 +1,4 @@
+pdf_image_dpi: 300
+model_name: yolox 
+ocr_agent: unstructured.partition.utils.ocr_models.ecoit_ocr.OCRAgentECOIT
+table_ocr_agent: unstructured.partition.utils.ocr_models.ecoit_ocr.OCRAgentECOIT

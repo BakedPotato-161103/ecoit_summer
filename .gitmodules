@@ -1,0 +1,3 @@
+[submodule "src/models/text_rec/vietocr"]
+	path = src/models/text_rec/vietocr
+	url = https://github.com/pbcquoc/vietocr.git

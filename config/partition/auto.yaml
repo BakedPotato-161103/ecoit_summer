@@ -1,0 +1,10 @@
+defaults:
+  - docx
+  - xlsx
+  - pdf
+
+starting_page_number: 1
+strategy: hires
+language: ['vie', 'eng']
+infer_table_structure: True
+skip_infer_table_types: []
